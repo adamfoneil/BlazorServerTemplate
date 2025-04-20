@@ -2,7 +2,7 @@ I make a lot of Blazor Server apps, and I got tired of building from these scrat
 
 Blazor Server in .NET9 is really nice IMO because of the improved SignalR reconnection experience. In prior .NET versions, that was a bit of a pain point. Disconnections still happen as this is limitation of sockets in browsers, but .NET9 is more graceful in how it reconnects and automatically refreshes the page when needed.
 
-I prefer Blazor Server over Web Assembly because Server is much more productive. In Blazor WASM you have to implement an API layer and split your project into separate backend and frontend projects. In Blazor Server, it's all one project. Also I've had success deploying to DigitalOcean using GitHub Container Registry. This is cheaper than Azure, though there's a little more to setup. I've used Azure a long time, but I don't like being locked into it.
+I prefer Blazor Server over Web Assembly because Server is much more productive. In Blazor WASM you have to implement an API layer and split your project into separate backend and frontend projects. That's extra work. In Blazor Server, it's all one project. Also I've had success deploying to DigitalOcean using GitHub Container Registry. This is cheaper than Azure, though there's a little more to setup. I've used Azure a long time, but I don't like being locked into it.
 
 # App project
 - Uses [Radzen Blazor](https://blazor.radzen.com/) for UI components
