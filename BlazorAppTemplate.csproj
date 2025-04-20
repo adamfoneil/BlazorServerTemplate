@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<PackageId>AO.BlazorServer.Postgres</PackageId>
+		<Title>Blazor Server template with Postgres</Title>
+		<Authors>Adam O'Neil</Authors>
+		<Copyright>Copyright (c) 2025</Copyright>
+		<PackageProjectUrl>https://github.com/adamfoneil/BlazorServerTemplate</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageType>Template</PackageType>
+		<Version>1.0.0</Version>
+		<Description>Blazor Server app template with ASP.NET Identity and Postgres database</Description>
+		<IsPackable>true</IsPackable>
+		<IncludeContentInPack>true</IncludeContentInPack>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<ContentTargetFolders>content</ContentTargetFolders>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="BlazorApp\**\*" Pack="true" PackagePath="content" Exclude="templates\**\bin\**;templates\**\obj\**" />
+		<None Include=".template.config\**\*" Pack="true" PackagePath="content\.template.config" />
+	</ItemGroup>
+</Project>
+
+

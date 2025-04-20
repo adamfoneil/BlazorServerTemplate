@@ -5,7 +5,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-BlazorApp-dfc08afb-f04e-4037-8894-f66fdedd5bcd</UserSecretsId>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>    
   </PropertyGroup>
+
+	<ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CoreNotify.MailerSend" Version="1.0.11" />

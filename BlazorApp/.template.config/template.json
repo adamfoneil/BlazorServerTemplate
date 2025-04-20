@@ -1,0 +1,15 @@
+{
+	"$schema": "http://json.schemastore.org/template",
+	"author": "Adam O'Neil'",
+	"classifications": [ "Web/Blazor" ],
+	"identity": "AO.BlazorServer.Postgres",
+	"description": "Blazor Server app with Postgres database and ASP.NET Identity",
+	"name": "Blazor Server App",
+	"shortName": "blazor-server-postgres",
+	"tags": {
+		"language": "C#",
+		"type": "project"
+	},
+	"sourceName": "MyApp",
+	"preferNameDirectory": true
+}
