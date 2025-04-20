@@ -17,7 +17,7 @@ This uses ASP.NET Identity via an EF Core `IdentityDbContext`.
 - I [link appsettings.json](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/Database/Database.csproj#L11) from the main app to the Database project so that EF migrations can share the same connection string as the app. I don't want to set the connection string in more than one place.
 
 # Auth extensions
-Although you can get the `ClaimsPrincipal` in a Blazor app easily, there's no obvious way to get the `ApplicationUser`. This is a problem if you have custom user properties. Although you could query the user from the database, that is not efficient. To address this, I have the [AuthExtensions](https://github.com/adamfoneil/BlazorServerTemplate/tree/main/AuthExtensions) project. This is offered as a NuGet package `AO.Blazor.CurrentUser, but is also used inline in the template app. Please see its [readme](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/AuthExtensions/readme.md) for more info.
+Although you can get the `ClaimsPrincipal` in a Blazor app easily, there's no obvious way to get the `ApplicationUser`. This is a problem if you have custom user properties. Although you could query the user from the database, that is not efficient. To address this, I have the [AuthExtensions](https://github.com/adamfoneil/BlazorServerTemplate/tree/main/AuthExtensions) project. This is offered as a NuGet package `AO.Blazor.CurrentUser`, but is also used inline in the template app. Please see its [readme](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/AuthExtensions/readme.md) for more info.
 
 # Design resources
 - Radzen uses [Material Icons](https://fonts.google.com/icons). Anyway there's an `Icon` property, any Google icon will work.
