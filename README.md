@@ -1,5 +1,9 @@
 I make a lot of Blazor Server apps, and I got tired of building from these scratch. This sample brings together all the boilerplate I start with currently.
 
+# App project
+- Uses [Radzen Blazor](https://blazor.radzen.com/)
+- Has a few custom [widgets](https://github.com/adamfoneil/BlazorServerTemplate/tree/main/BlazorApp/Components/Widgets) for common CRUD use and navigation
+
 # Database project
 EF Core `IdentityDbContext` project. 
 - I added a `TimeZoneId` property to the [ApplicationUser](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/Database/ApplicationUser.cs) to demonstrate a simple customization
@@ -7,6 +11,6 @@ EF Core `IdentityDbContext` project.
 
 
 # Design resources
-- Radzen uses [Material Icons](https://fonts.google.com/icons)
+- Radzen uses [Material Icons](https://fonts.google.com/icons). Anyway there's an `Icon` property, any Google icon will work.
 - [flatuicolors.com](https://flatuicolors.com/)
 - [colorkit.co](https://colorkit.co/)
