@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>AO.Blazor.CurrentUser</PackageId>
+    <Title>Blazor Current User </Title>
+    <Version>1.0.1</Version>
+    <Authors>Adam O'Neil</Authors>
+    <Copyright>Copyright (c) 2025 Adam O'Neil</Copyright>
+    <PackageProjectUrl>https://github.com/adamfoneil/LiteInvoice/tree/master/AuthExtensions</PackageProjectUrl>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/adamfoneil/LiteInvoice</RepositoryUrl>
+    <PackageTags>blazor-server; auth</PackageTags>
+    <Company>Adam O'Neil</Company>
+    <Description>Stong-typed access to your TUser class in Blazor Server and ASP.NET Identity</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
