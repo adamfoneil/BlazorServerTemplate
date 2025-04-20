@@ -15,11 +15,22 @@ This uses ASP.NET Identity via an EF Core `IdentityDbContext`.
 - I added a `TimeZoneId` property to the [ApplicationUser](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/Database/ApplicationUser.cs) to demonstrate a simple customization
 - This can be managed in the profile [manage page](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/BlazorApp/Components/Account/Pages/Manage/Index.razor#L34)
 - I [link appsettings.json](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/Database/Database.csproj#L11) from the main app to the Database project so that EF migrations can share the same connection string as the app. I don't want to set the connection string in more than one place.
+- The db context has simple [auditing](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/Database/ApplicationDbContext.cs#L31) of inserts and updates
+- I use a [BaseTable](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/Database/Conventions/BaseTable.cs) class to ensure consistent `Id` property use across all entities, among other common properties.
+- If you need to target different database connections with your migrations, pass an optional additional argument to your `dotnet ef database update` command. For example: `dotnet ef database update -- Dev` will update a connection named `Dev`. Just make sure the connection is defined in your appsettings or local secrets config. This is implemented in the custom [design time db context factory](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/Database/ApplicationDbContext.cs#L66).
 
 # Auth extensions
 Although you can get the `ClaimsPrincipal` in a Blazor app easily, there's no obvious way to get the `ApplicationUser`. This is a problem if you have custom user properties. Although you could query the user from the database, that is not efficient. To address this, I have the [AuthExtensions](https://github.com/adamfoneil/BlazorServerTemplate/tree/main/AuthExtensions) project. This is offered as a NuGet package `AO.Blazor.CurrentUser`, but is also used inline in the template app. Please see its [readme](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/AuthExtensions/readme.md) for more info.
 
 # Design resources
-- Radzen uses [Material Icons](https://fonts.google.com/icons). Anyway there's an `Icon` property, any Google icon will work.
+- Radzen uses [Material Icons](https://fonts.google.com/icons). Anywhere there's an `Icon` property, any of these Google icons will work.
+
+<details>
+  <summary>Learn More</summary>
+  Click on the icon preview and use the icon `name` in your Radzen icon property setting.
+  
+  ![image](https://github.com/user-attachments/assets/ef2d9ab9-0fcd-4c39-b2dc-bf1ccbd2ad23)
+</details>
+
 - [flatuicolors.com](https://flatuicolors.com/)
 - [colorkit.co](https://colorkit.co/)
