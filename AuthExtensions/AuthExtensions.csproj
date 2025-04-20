@@ -10,9 +10,9 @@
     <Version>1.0.2</Version>
     <Authors>Adam O'Neil</Authors>
     <Copyright>Copyright (c) 2025 Adam O'Neil</Copyright>
-    <PackageProjectUrl>https://github.com/adamfoneil/LiteInvoice/tree/master/AuthExtensions</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/adamfoneil/BlazorServerTemplate/tree/main/AuthExtensions</PackageProjectUrl>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/adamfoneil/LiteInvoice</RepositoryUrl>
+    <RepositoryUrl>https://github.com/adamfoneil/BlazorServerTemplate</RepositoryUrl>
     <PackageTags>blazor-server; auth</PackageTags>
     <Company>Adam O'Neil</Company>
     <Description>Stong-typed access to your TUser class in Blazor Server and ASP.NET Identity</Description>
