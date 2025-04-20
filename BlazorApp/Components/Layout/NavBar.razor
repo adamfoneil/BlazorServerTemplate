@@ -4,55 +4,53 @@
 
 <div class="d-flex align-items-center justify-content-between mt-3">
 	<div class="d-flex align-items-center">
-        <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
-            <i class="bi bi-house"></i> Home
-        </NavLink>
-        <AuthorizeView>
+		<IconNavLink Href="/" Text="Home" IconClass="home" Match="NavLinkMatch.All" />
+		<AuthorizeView>
 			<Authorized>
-                
-            </Authorized>
-        </AuthorizeView>
+				@*todo: add more nav links*@
+			</Authorized>
+		</AuthorizeView>
 	</div>
 	<div class="d-flex align-items-center">
-        <AuthorizeView>
-            <Authorized>
-                <IconNavLink Href="/Account/Manage" Text="@context.User.Identity?.Name" IconClass="manage_accounts" />
-                <div class="nav-item px-3">
-                    <form action="Account/Logout" method="post">
-                        <AntiforgeryToken />
-                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                        <button type="submit" class="nav-link" title="Logout">
-                            <RadzenIcon Icon="logout" />
-                        </button>
-                    </form>
-                </div>
-            </Authorized>
-            <NotAuthorized>
-                <IconNavLink Href="/Account/Register" Text="Register" IconClass="how_to_reg" />
-                <IconNavLink Href="/Account/Login" Text="Login" IconClass="login" />
-            </NotAuthorized>
-        </AuthorizeView>
+		<AuthorizeView>
+			<Authorized>
+				<IconNavLink Href="/Account/Manage" Text="@context.User.Identity?.Name" IconClass="manage_accounts" />
+				<div class="nav-item px-3">
+					<form action="Account/Logout" method="post">
+						<AntiforgeryToken />
+						<input type="hidden" name="ReturnUrl" value="@currentUrl" />
+						<button type="submit" class="nav-link" title="Logout">
+							<RadzenIcon Icon="logout" />
+						</button>
+					</form>
+				</div>
+			</Authorized>
+			<NotAuthorized>
+				<IconNavLink Href="/Account/Register" Text="Register" IconClass="how_to_reg" />
+				<IconNavLink Href="/Account/Login" Text="Login" IconClass="login" />
+			</NotAuthorized>
+		</AuthorizeView>
 	</div>
 </div>
 
 @code {
-    private string? currentUrl;
+	private string? currentUrl;
 
-    protected override void OnInitialized()
-    {
-        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        NavigationManager.LocationChanged += OnLocationChanged;
-    }
+	protected override void OnInitialized()
+	{
+		currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+		NavigationManager.LocationChanged += OnLocationChanged;
+	}
 
-    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
-    {
-        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
-        StateHasChanged();
-    }
+	private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+	{
+		currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+		StateHasChanged();
+	}
 
-    public void Dispose()
-    {
-        NavigationManager.LocationChanged -= OnLocationChanged;
-    }
+	public void Dispose()
+	{
+		NavigationManager.LocationChanged -= OnLocationChanged;
+	}
 }
 
