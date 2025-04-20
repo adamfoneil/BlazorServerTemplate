@@ -10,7 +10,7 @@ namespace Database;
 public class Item : BaseTable
 {
 	public string Name { get; set; } = default!;
-	public string Description { get; set; } = default!;
+	public string? Description { get; set; } = default!;
 	public decimal Price { get; set; }
 	public DateTime? EffectiveDate { get; set; }
 	public bool IsActive { get; set; } = true;

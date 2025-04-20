@@ -13,6 +13,7 @@ public class ApplicationUser : IdentityUser, IClaimData
 	public void FromClaims(IEnumerable<Claim> claims)
 	{
 		TimeZoneId = claims.GetClaimValue("TimeZoneId");
+		PhoneNumber = claims.GetClaimValue(ClaimTypes.MobilePhone);
 	}
 
 	public IEnumerable<Claim> ToClaims()
@@ -20,6 +21,11 @@ public class ApplicationUser : IdentityUser, IClaimData
 		if (!string.IsNullOrEmpty(TimeZoneId))
 		{
 			yield return new Claim("TimeZoneId", TimeZoneId);
+		}
+
+		if (!string.IsNullOrEmpty(PhoneNumber))
+		{
+			yield return new Claim(ClaimTypes.MobilePhone, PhoneNumber);
 		}
 	}
 }
