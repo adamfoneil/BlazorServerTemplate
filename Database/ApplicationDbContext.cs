@@ -3,10 +3,15 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Service.Database;
+namespace Database;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
+	protected override void OnModelCreating(ModelBuilder builder)
+	{
+		base.OnModelCreating(builder);
+		builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+	}
 }
 
 public class AppDbFactory : IDesignTimeDbContextFactory<ApplicationDbContext>

@@ -2,10 +2,10 @@ using BlazorApp.Components;
 using BlazorApp.Components.Account;
 using BlazorApp.Extensions;
 using CoreNotify.MailerSend.Extensions;
+using Database;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Radzen;
-using Service.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,7 +51,6 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
-// Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
 
 app.Run();

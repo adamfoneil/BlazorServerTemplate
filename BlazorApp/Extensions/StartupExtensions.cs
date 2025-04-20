@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Service.Database;
+﻿using Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlazorApp.Extensions;
 
