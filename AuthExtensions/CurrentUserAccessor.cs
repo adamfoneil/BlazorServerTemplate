@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace AuthExtensions;
 
@@ -23,7 +24,14 @@ public class CurrentUserAccessor<TUser>(
 
 		if (user.Identity is not null && user.Identity.IsAuthenticated)
 		{
-			_currentUser = new();
+			_currentUser = new()
+			{
+				UserName = user.Identity.Name,
+				Email = user.Claims.GetClaimValue(ClaimTypes.Email),
+				NormalizedEmail = user.Claims.GetClaimValue(ClaimTypes.Email),
+				NormalizedUserName = user.Identity.Name
+			};
+
 			_currentUser.FromClaims(user.Claims);
 		}
 
