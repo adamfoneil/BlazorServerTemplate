@@ -1,7 +1,15 @@
 ﻿@page "/"
+@inject NavigationManager Nav
 
 <PageTitle>Home</PageTitle>
 
 <h1>Blazor Server App</h1>
+
+<RadzenCard>
+	<h3>Grid Example</h3>
+	<p>Implement CRUD actions with <a href="https://blazor.radzen.com/datagrid" target="_blank">RadzenDataGrid</a> using EF Core.</p>
+	<RadzenButton Text="Items page" Click="@(() => Nav.NavigateTo("/Items"))" />
+	<p><a href="">GitHub Source</a></p>
+</RadzenCard>
 
 

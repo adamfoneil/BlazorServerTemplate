@@ -11,7 +11,7 @@ public class CurrentUserAccessor<TUser>(
 
 	private TUser? _currentUser;
 
-	public async Task<TUser> GetAsync()
+	public async Task<TUser?> GetAsync()
 	{
 		if (_currentUser != null)
 		{
@@ -27,6 +27,6 @@ public class CurrentUserAccessor<TUser>(
 			_currentUser.FromClaims(user.Claims);
 		}
 
-		return _currentUser ?? new();
+		return _currentUser;
 	}
 }

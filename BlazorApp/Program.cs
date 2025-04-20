@@ -1,3 +1,4 @@
+using AuthExtensions;
 using BlazorApp.Components;
 using BlazorApp.Components.Account;
 using BlazorApp.Extensions;
@@ -16,6 +17,7 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+builder.Services.AddCurrentUserInfo<ApplicationUser>();
 
 builder.Services.AddAuthentication(options =>
     {

@@ -1,0 +1,88 @@
+﻿@page "/Items"
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+
+<h3>Items</h3>
+<p>This is a sample grid editing page using Radzen's grid and EF Core.</p>
+
+<GridInsertButton Grid="grid" TItem="Item" OnCreateItem="() => new()" />
+
+<RadzenDataGrid TItem="Item" Data="data" RowCreate="Save" RowUpdate="Save" @ref="grid">
+    <Columns>
+        <RadzenDataGridColumn TItem="Item" Title="Name">
+            <Template>
+                <span>@context.Name</span>
+            </Template>
+            <EditTemplate>
+                <RadzenTextBox @bind-Value="context.Name" MaxLength="50" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Item" Title="Description">
+            <Template>
+                <span>@context.Description</span>
+            </Template>
+            <EditTemplate>
+                <RadzenTextBox @bind-Value="context.Description" MaxLength="200" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Item" Title="Effective Date">
+            <Template>
+                <span>@context.EffectiveDate</span>
+            </Template>
+            <EditTemplate>
+                <RadzenDatePicker @bind-Value="context.EffectiveDate" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="Item" Title="Price">
+            <Template>
+                <span>@context.Price.ToString("c2")</span>
+            </Template>
+            <EditTemplate>
+                <RadzenNumeric @bind-Value="context.Price" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="Item" Title="Active">
+            <Template>
+                <span>@context.IsActive</span>
+            </Template>
+            <EditTemplate>
+                <RadzenSwitch @bind-Value="context.IsActive" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <GridControls Grid="grid" TItem="Item" DeleteRow="Delete" />
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+	private RadzenDataGrid<Item>? grid;
+    private Item[] data = [];
+    private ApplicationUser? user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await CurrentUser.GetAsync();
+        await Refresh();
+    }
+
+    private async Task Refresh()
+    {
+        using var db = DbFactory.CreateDbContext();
+        data = await db.Items.ToArrayAsync();
+    }
+
+    private async Task Save(Item row)
+    {
+        using var db = DbFactory.CreateDbContext();
+        db.Items.Update(row);
+        await db.SaveChangesAsync(user);
+    }
+
+	private async Task Delete(Item row)
+	{
+		using var db = DbFactory.CreateDbContext();
+		db.Items.Remove(row);
+		await db.SaveChangesAsync();
+	}
+}

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
 
 namespace AuthExtensions;
 
@@ -17,4 +18,7 @@ public static class Extensions
 		// provides strongly-typed access to the current user info in your pages/components
 		services.AddScoped<CurrentUserAccessor<TUser>>();
 	}
+
+	public static string? GetClaimValue(this IEnumerable<Claim> claims, string claimType) =>
+		claims.FirstOrDefault(c => c.Type == claimType)?.Value;
 }
