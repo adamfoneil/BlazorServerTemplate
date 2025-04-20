@@ -1,14 +1,15 @@
 ﻿@page "/Account/Manage"
 
 @using System.ComponentModel.DataAnnotations
-@using Database
 @using Microsoft.AspNetCore.Identity
-
+@using Database
+@using Microsoft.EntityFrameworkCore
 
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
 
 <PageTitle>Profile</PageTitle>
 
@@ -29,6 +30,16 @@
                 <label for="Input.PhoneNumber" class="form-label">Phone number</label>
                 <ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
             </div>
+            <div class="form-floating mb-3">
+                <InputSelect @bind-Value="Input.TimeZoneId" class="form-control">
+                    <option value="">(not set)</option>
+                    @foreach (var item in allTimeZones)
+                    {
+                        <option value="@item.Id">@item.DisplayName</option>
+                    }
+                </InputSelect>
+                <label for="time-zone" class="form-label">Time zone</label>
+            </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </EditForm>
     </div>
@@ -38,6 +49,8 @@
     private ApplicationUser user = default!;
     private string? username;
     private string? phoneNumber;
+    private string? timeZoneId;
+    private IEnumerable<TimeZoneInfo> allTimeZones = [];
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
@@ -47,15 +60,21 @@
 
     protected override async Task OnInitializedAsync()
     {
+        allTimeZones = TimeZoneInfo.GetSystemTimeZones();
+
         user = await UserAccessor.GetRequiredUserAsync(HttpContext);
         username = await UserManager.GetUserNameAsync(user);
         phoneNumber = await UserManager.GetPhoneNumberAsync(user);
+        timeZoneId = user.TimeZoneId;
 
         Input.PhoneNumber ??= phoneNumber;
+        Input.TimeZoneId ??= timeZoneId;
     }
 
     private async Task OnValidSubmitAsync()
     {
+        using var dbContext = DbFactory.CreateDbContext();
+
         if (Input.PhoneNumber != phoneNumber)
         {
             var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
@@ -63,6 +82,13 @@
             {
                 RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to set phone number.", HttpContext);
             }
+        }
+
+        if (Input.TimeZoneId != timeZoneId)
+        {
+            await dbContext.Users
+                .Where(u => u.UserName == user.UserName)
+                .ExecuteUpdateAsync(set => set.SetProperty(u => u.TimeZoneId, Input.TimeZoneId));
         }
 
         await SignInManager.RefreshSignInAsync(user);
@@ -74,5 +100,8 @@
         [Phone]
         [Display(Name = "Phone number")]
         public string? PhoneNumber { get; set; }
+
+        [Display(Name = "Time Zone")]
+        public string? TimeZoneId { get; set; }
     }
 }
