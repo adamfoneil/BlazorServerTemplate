@@ -1,4 +1,4 @@
-I make a lot of Blazor Server apps, and I got tired of building from these scratch. This sample brings together all the boilerplate I start with currently.
+I make a lot of Blazor Server apps, and I got tired of building from these scratch. I am not really into Web Assembly. This sample brings together all the boilerplate I start with currently.
 
 # App project
 - Uses [Radzen Blazor](https://blazor.radzen.com/)
