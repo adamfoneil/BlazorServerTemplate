@@ -16,6 +16,7 @@
                 <RadzenTextBox @bind-Value="context.Name" MaxLength="50" />
             </EditTemplate>
         </RadzenDataGridColumn>
+
         <RadzenDataGridColumn TItem="Item" Title="Description">
             <Template>
                 <span>@context.Description</span>
@@ -24,6 +25,7 @@
                 <RadzenTextBox @bind-Value="context.Description" MaxLength="200" />
             </EditTemplate>
         </RadzenDataGridColumn>
+
         <RadzenDataGridColumn TItem="Item" Title="Effective Date">
             <Template>
                 <span>@context.EffectiveDate</span>
@@ -56,7 +58,7 @@
 </RadzenDataGrid>
 
 @code {
-	private RadzenDataGrid<Item>? grid;
+    private RadzenDataGrid<Item>? grid;
     private Item[] data = [];
     private ApplicationUser? user;
 
@@ -79,10 +81,11 @@
         await db.SaveChangesAsync(user);
     }
 
-	private async Task Delete(Item row)
-	{
-		using var db = DbFactory.CreateDbContext();
-		db.Items.Remove(row);
-		await db.SaveChangesAsync();
-	}
+    private async Task Delete(Item row)
+    {
+        using var db = DbFactory.CreateDbContext();
+        db.Items.Remove(row);
+        await db.SaveChangesAsync();
+        await Refresh();
+    }
 }
