@@ -6,7 +6,7 @@ I prefer Blazor Server over Web Assembly because Server is much more productive.
 
 # App project
 - Uses [Radzen Blazor](https://blazor.radzen.com/) for UI components
-- Has a few custom [widgets](https://github.com/adamfoneil/BlazorServerTemplate/tree/main/BlazorApp/Components/Widgets) for common CRUD use and navigation
+- Has a few custom [widgets](https://github.com/adamfoneil/BlazorServerTemplate/tree/main/BlazorApp/Components/Widgets) for common CRUD use and navigation. See the demo [crud page](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/BlazorApp/Components/Items/Page.razor).
 - I replace the "NoOp" `IEmailSender` with [CoreNotify](https://github.com/adamfoneil/CoreNotify) so that account notification emails work right away. See [startup](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/BlazorApp/Program.cs#L30). This is technically a paid service of mine. There is a 30-day free trial. There might be a working API key in [configuration](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/BlazorApp/appsettings.Development.json#L3) when you're reading this. I recycle this key occasionally, so it might not work in the template by the time you're reading this. In that case, register your own CoreNotify account and apply your own API key. Info on that is in the CoreNotify readme.
 - I recommend [disabling prerendering](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/BlazorApp/Components/App.razor#L30). When prerendering is turn on, components get initialized multiple times. This is by design, but not efficient if you have database queries being run during component initialization.
 
