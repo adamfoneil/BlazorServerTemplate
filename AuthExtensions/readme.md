@@ -32,3 +32,5 @@ Now you can access the current user in any component like this:
 	}
 }
 ```
+
+Once you have the current user captured in your page/component, I recommend using it with an EF Core `DbContext` via a `SaveChangesAsync` [override](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/Database/ApplicationDbContext.cs#L25). This way, you can perform permission checks and auditing as part of your normal save operations.
