@@ -101,3 +101,5 @@ private async Task DownloadData()
 
 ![image](https://github.com/user-attachments/assets/9faed7d3-1a85-4bec-a504-5cc323dda85c)
 
+## Next Steps
+While this works for exporting raw data, it doesn't provide any complementary import or upload capability. That's the next thing I'd like to implement.
