@@ -83,7 +83,7 @@ builder.Services.AddBlazorDownloadFile();
 @inject IBlazorDownloadFileService Download;
 ```
 
-6. Create button or other method of executing the download. In my example, I have a `RadzenButton` with a `Click` event. This uses the [ExportZipAsync](https://github.com/adamfoneil/FinView/blob/d9a6798a9729a13f6b00fc3a18d66a35e7cb292b/PostgresExtensions/ExporterExtensions.cs#L7) extension method to handle the zip file creation. Note how it uses the `IBlazorDownloadFileService` as a lambda within the `ExportZip` method. The reason is that the download operation requires an open stream of some kind as input. By passing the download operation as a lambda, it has access to the zip file stream while it's still open within the `ExportZipAsync` method.
+6. Create a button or other method of executing the download. In my example, I have a `RadzenButton` with a `Click` event. This uses the [ExportZipAsync](https://github.com/adamfoneil/FinView/blob/d9a6798a9729a13f6b00fc3a18d66a35e7cb292b/PostgresExtensions/ExporterExtensions.cs#L7) extension method to handle the zip file creation. Note how it uses the `IBlazorDownloadFileService` as a lambda within the `ExportZip` method. The reason is that the download operation requires an open stream of some kind as input. By passing the download operation as a lambda, it has access to the zip file stream while it's still open within the `ExportZipAsync` method.
 
 ```razor
 <RadzenButton Icon="download" Text="My Data" Click="DownloadData" />
