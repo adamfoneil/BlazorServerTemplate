@@ -39,7 +39,7 @@ public class UserDataExporterFactory(
 ```
 </details>
 
-2. Create your Exporter class, implementing `DataExporter`. Here, you define the actual queries that provide the data you want to export by overriding the [GetQueries](https://github.com/adamfoneil/FinView/blob/d9a6798a9729a13f6b00fc3a18d66a35e7cb292b/PostgresExtensions/DataExporter.cs#L16) abstract method. You also receive any dependencies needed by your export process. At minimum this will likely be an EF Core `DbContext` or context factory. It can be anything that can execute `IQueryable`s, in fact. In this example, it's also the current `userId`.
+2. Create your Exporter class, implementing `DataExporter`. Here, you define the actual queries that provide the data you want to export by overriding the [GetQueries](https://github.com/adamfoneil/FinView/blob/d9a6798a9729a13f6b00fc3a18d66a35e7cb292b/PostgresExtensions/DataExporter.cs#L16) abstract method. You also receive any dependencies needed by your export process. At minimum this will likely be an EF Core `DbContext` or context factory. It can be anything that can return `IQueryable`s, in fact. In this example, crucially, the other dependency is the current `userId`. Note that I could've made it so the Exporter itself could determine the current user by injecting `AuthenticationStateProvider` there. I didn't do that because it would couple the export functionality to authentication plumbing, undermining its usability in other situations. In other words, it would mean that the `GetQueries` method would require a `userId` argument or require some other way of getting a list of queries to execute.
 
 <details>
   <summary>Example</summary>
