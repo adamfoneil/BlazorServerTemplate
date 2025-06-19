@@ -2,4 +2,5 @@
   <Project Path="AuthExtensions/AuthExtensions.csproj" />
   <Project Path="BlazorApp/BlazorApp.csproj" />
   <Project Path="Database/Database.csproj" />
+  <Project Path="PostgresExtensions/PostgresExtensions.csproj" />
 </Solution>
