@@ -107,5 +107,5 @@ While this works for exporting raw data, it doesn't provide any complementary im
 ## AI help notes
 ChatGPT and GitHub Copilot Agent filled in a few useful details of this that I would've struggled with myself.
 
-- Using a [nested block](https://github.com/adamfoneil/BlazorServerTemplate/blob/7185bfddeeb11b702695f9c768423e710a3d91c3/PostgresExtensions/ExporterExtensions.cs#L16-L21) for the zip file writing. This is a really nice way of ensuring the zip file is fully written while not affecting its enclosing `MemoryStream`. This was a GPT suggestion.
+- Using a [nested block](https://github.com/adamfoneil/BlazorServerTemplate/blob/7185bfddeeb11b702695f9c768423e710a3d91c3/PostgresExtensions/ExporterExtensions.cs#L16-L21) for the zip file writing. This is a really nice way of ensuring the zip file is fully written while not affecting its enclosing `MemoryStream`. This was a GPT suggestion. I've done zip file downloads without this, but they were a bit more complicated.
 - Including [column info](https://github.com/adamfoneil/BlazorServerTemplate/blob/7185bfddeeb11b702695f9c768423e710a3d91c3/PostgresExtensions/DataExporter.cs#L33) in the json output will eventually enable reading/importing data. This was a Copilot Agent addition.
