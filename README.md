@@ -22,6 +22,9 @@ This uses ASP.NET Identity via an EF Core `IdentityDbContext`.
 # Auth extensions
 Although you can get the `ClaimsPrincipal` in a Blazor app easily, there's no obvious way to get the `ApplicationUser`. This is a problem if you have custom user properties. Although you could query the user from the database, that is not efficient. To address this, I have the [AuthExtensions](https://github.com/adamfoneil/BlazorServerTemplate/tree/main/AuthExtensions) project. This is offered as a NuGet package `AO.Blazor.CurrentUser`, but is also used inline in the template app. Please see its [readme](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/AuthExtensions/readme.md) for more info.
 
+# Postgres Extensions
+I wanted a place to put reusable Postgres features that was not tied to the application. Currently this is just a [DataExporter](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/PostgresExtensions/DataExporter.cs) abstract class. Please see the readme there for more about this.
+
 # Install Postgres
 I use [this Docker command](https://github.com/adamfoneil/BlazorServerTemplate/blob/main/postgres.txt) to install Postgres locally.
 
