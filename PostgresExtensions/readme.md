@@ -13,28 +13,28 @@ If you want to provide a way for users to export data, such as downloading a cop
 
 ```csharp
 public class UserDataExporterFactory(
-	IDbContextFactory<ApplicationDbContext> dbFactory,
-	AuthenticationStateProvider authState) : IDataExporterFactory<UserDataExporter>
+  IDbContextFactory<ApplicationDbContext> dbFactory,
+  AuthenticationStateProvider authState) : IDataExporterFactory<UserDataExporter>
 {
-	private readonly IDbContextFactory<ApplicationDbContext> _dbFactory = dbFactory;
-	private readonly AuthenticationStateProvider _authState = authState;
+    private readonly IDbContextFactory<ApplicationDbContext> _dbFactory = dbFactory;
+    private readonly AuthenticationStateProvider _authState = authState;
 
-	public async Task<UserDataExporter> CreateAsync()
-	{
-		var authState = await _authState.GetAuthenticationStateAsync();
-		var user = authState.User?.Identity?.IsAuthenticated ?? false ? authState.User : throw new Exception("No current user");
-		var userName = user.Identity!.Name;
+    public async Task<UserDataExporter> CreateAsync()
+    {
+        var authState = await _authState.GetAuthenticationStateAsync();
+        var user = authState.User?.Identity?.IsAuthenticated ?? false ? authState.User : throw new Exception("No current user");
+        var userName = user.Identity!.Name;
 
-		using var db = _dbFactory.CreateDbContext();
-		var userId = await db.Users
-			.Where(u => u.UserName == userName)
-			.Select(u => u.UserId)
-			.SingleOrDefaultAsync();
+        using var db = _dbFactory.CreateDbContext();
+        var userId = await db.Users
+            .Where(u => u.UserName == userName)
+            .Select(u => u.UserId)
+            .SingleOrDefaultAsync();
 
-		if (userId == 0) throw new Exception($"User not found: {userName}");
+        if (userId == 0) throw new Exception($"User not found: {userName}");
 
-		return new(_dbFactory, userId);
-	}
+        return new(_dbFactory, userId);
+    }
 }
 ```
 </details>
@@ -47,19 +47,19 @@ public class UserDataExporterFactory(
 ```csharp
 public class UserDataExporter(IDbContextFactory<ApplicationDbContext> dbFactory, int userId) : DataExporter
 {
-	private readonly IDbContextFactory<ApplicationDbContext> dbFactory = dbFactory;
-	private readonly int _userId = userId;
+  private readonly IDbContextFactory<ApplicationDbContext> dbFactory = dbFactory;
+  private readonly int _userId = userId;
 
-	protected override IEnumerable<(string Name, IQueryable Query)> GetQueries()
-	{		
-		using var dbContext = dbFactory.CreateDbContext();
-		dbContext.Database.GetDbConnection().Open();
+  protected override IEnumerable<(string Name, IQueryable Query)> GetQueries()
+  {
+    using var dbContext = dbFactory.CreateDbContext();
+    dbContext.Database.GetDbConnection().Open();
 
-		yield return ("Accounts", dbContext.Accounts.Where(row => row.UserId == _userId));
-		yield return ("Balances", dbContext.Balances.Include(b => b.Account).Where(b => b.Account!.UserId == _userId));
-		yield return ("Goals", dbContext.Goals.Include(g => g.Account).Where(g => g.Account!.UserId == _userId));
-		yield return ("GoalDetails", dbContext.GoalDetails.Include(gd => gd.Goal).ThenInclude(g => g.Account).Where(gd => gd.Goal!.Account!.UserId == _userId));
-	}
+    yield return ("Accounts", dbContext.Accounts.Where(row => row.UserId == _userId));
+    yield return ("Balances", dbContext.Balances.Include(b => b.Account).Where(b => b.Account!.UserId == _userId));
+    yield return ("Goals", dbContext.Goals.Include(g => g.Account).Where(g => g.Account!.UserId == _userId));
+    yield return ("GoalDetails", dbContext.GoalDetails.Include(gd => gd.Goal).ThenInclude(g => g.Account).Where(gd => gd.Goal!.Account!.UserId == _userId));
+  }
 }
 ```
 </details>
