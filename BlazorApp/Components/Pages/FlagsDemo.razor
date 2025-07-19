@@ -1,0 +1,73 @@
+@page "/flags-demo"
+@using System.ComponentModel
+
+<PageTitle>Flags Editor Demo</PageTitle>
+
+<h1>Flags Editor Component Demo</h1>
+
+<RadzenCard>
+    <h3>Demo: File Permissions</h3>
+    <p>This demonstrates editing a Flags enum using the FlagsEditor component.</p>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <RadzenFieldset Text="Edit Permissions">
+                <FlagsEditor TEnum="FilePermissions" @bind-Value="CurrentPermissions" />
+            </RadzenFieldset>
+        </div>
+        <div class="col-md-6">
+            <RadzenFieldset Text="Current Value">
+                <p><strong>Selected Permissions:</strong> @CurrentPermissions</p>
+                <p><strong>Numeric Value:</strong> @((int)CurrentPermissions)</p>
+                <p><strong>Binary Value:</strong> @Convert.ToString((int)CurrentPermissions, 2).PadLeft(4, '0')</p>
+            </RadzenFieldset>
+        </div>
+    </div>
+</RadzenCard>
+
+<RadzenCard class="mt-3">
+    <h3>Demo: Application Features</h3>
+    <p>Another example with a different Flags enum.</p>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <RadzenFieldset Text="Edit Features">
+                <FlagsEditor TEnum="AppFeatures" @bind-Value="CurrentFeatures" />
+            </RadzenFieldset>
+        </div>
+        <div class="col-md-6">
+            <RadzenFieldset Text="Current Value">
+                <p><strong>Selected Features:</strong> @CurrentFeatures</p>
+                <p><strong>Numeric Value:</strong> @((int)CurrentFeatures)</p>
+            </RadzenFieldset>
+        </div>
+    </div>
+</RadzenCard>
+
+@code {
+    private FilePermissions CurrentPermissions { get; set; } = FilePermissions.Read | FilePermissions.Write;
+    private AppFeatures CurrentFeatures { get; set; } = AppFeatures.BasicFeatures | AppFeatures.Analytics;
+
+    [Flags]
+    public enum FilePermissions
+    {
+        None = 0,
+        Read = 1,
+        Write = 2,
+        Execute = 4,
+        Delete = 8
+    }
+
+    [Flags]
+    public enum AppFeatures
+    {
+        None = 0,
+        BasicFeatures = 1,
+        AdvancedReporting = 2,
+        Analytics = 4,
+        [Description("User Management")]
+        UserManagement = 8,
+        [Description("API Access")]
+        ApiAccess = 16
+    }
+}
