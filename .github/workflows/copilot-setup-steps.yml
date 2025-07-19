@@ -1,0 +1,25 @@
+name: Copilot setup steps
+
+on: workflow_dispatch
+
+permissions:
+    contents: read
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore BlazorServerApp.slnx
+
+    - name: Build
+      run: dotnet build BlazorServerApp.slnx --no-restore --configuration Debug
