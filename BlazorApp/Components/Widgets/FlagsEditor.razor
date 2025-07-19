@@ -1,0 +1,93 @@
+@typeparam TEnum where TEnum : struct, Enum
+@using System.ComponentModel
+@using System.Reflection
+
+<div class="flags-editor">
+    @foreach (var flag in GetFlagValues())
+    {
+        var isChecked = HasFlag(flag);
+        var flagLocal = flag; // Capture the flag for the callback
+        <div class="flag-item mb-2">
+            <RadzenCheckBox Value="@isChecked" 
+                           ValueChanged="@(EventCallback.Factory.Create<bool>(this, value => OnFlagChanged(flagLocal, value)))" 
+                           Name="@($"flag_{flagLocal}")" />
+            <RadzenLabel Text="@GetDisplayName(flagLocal)" Component="@($"flag_{flagLocal}")" class="ms-2" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public TEnum Value { get; set; }
+
+    [Parameter]
+    public EventCallback<TEnum> ValueChanged { get; set; }
+
+    private IEnumerable<TEnum> GetFlagValues()
+    {
+        var enumType = typeof(TEnum);
+        
+        // Check if the enum has the Flags attribute
+        if (!enumType.IsDefined(typeof(FlagsAttribute), false))
+        {
+            throw new ArgumentException($"The enum type {enumType.Name} must have the [Flags] attribute.");
+        }
+
+        return Enum.GetValues<TEnum>()
+            .Where(value => !value.Equals(default(TEnum)) && IsPowerOfTwo(Convert.ToUInt64(value)));
+    }
+
+    private bool IsPowerOfTwo(ulong value)
+    {
+        return value != 0 && (value & (value - 1)) == 0;
+    }
+
+    private bool HasFlag(TEnum flag)
+    {
+        var valueAsULong = Convert.ToUInt64(Value);
+        var flagAsULong = Convert.ToUInt64(flag);
+        return (valueAsULong & flagAsULong) == flagAsULong;
+    }
+
+    private async Task OnFlagChanged(TEnum flag, bool isChecked)
+    {
+        var valueAsULong = Convert.ToUInt64(Value);
+        var flagAsULong = Convert.ToUInt64(flag);
+
+        if (isChecked)
+        {
+            valueAsULong |= flagAsULong; // Set the flag
+        }
+        else
+        {
+            valueAsULong &= ~flagAsULong; // Clear the flag
+        }
+
+        var newValue = (TEnum)Enum.ToObject(typeof(TEnum), valueAsULong);
+        Value = newValue;
+        await ValueChanged.InvokeAsync(newValue);
+    }
+
+    private string GetDisplayName(TEnum flag)
+    {
+        var fieldInfo = typeof(TEnum).GetField(flag.ToString());
+        
+        // Try DisplayName first, then Description, then fallback to enum name
+        var displayAttribute = fieldInfo?.GetCustomAttribute<DisplayNameAttribute>();
+        if (displayAttribute != null && !string.IsNullOrEmpty(displayAttribute.DisplayName))
+            return displayAttribute.DisplayName;
+            
+        var descriptionAttribute = fieldInfo?.GetCustomAttribute<DescriptionAttribute>();
+        if (descriptionAttribute != null && !string.IsNullOrEmpty(descriptionAttribute.Description))
+            return descriptionAttribute.Description;
+            
+        return flag.ToString();
+    }
+}
+
+<style>
+    .flags-editor .flag-item {
+        display: flex;
+        align-items: center;
+    }
+</style>
