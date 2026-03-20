@@ -4,5 +4,5 @@ docker run -d `
 -e POSTGRES_PASSWORD=postgresPwd `
 -e POSTGRES_DB=pgdb `
 -p 5433:5432 `
--v postgres-data:/var/lib/postgresql/data `
+-v postgres-data:/var/lib/postgresql `
 postgres:latest
