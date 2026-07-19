@@ -1,5 +1,3 @@
-Offered as NuGet package `AO.Blazor.CurrentUser`.
-
 This is a set of objects to make it easy to get the current `IdentityUser` in your Blazor apps without additional database queries.
 
 1. Implement [IClaimData](./IClaimData.cs) on your `TUser IdentityUser` type. This defines a conversion between your `IdentityUser` type and a set of claims.
