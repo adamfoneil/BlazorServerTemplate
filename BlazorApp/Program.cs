@@ -17,7 +17,7 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
-builder.Services.AddCurrentUserInfo<ApplicationUser>();
+builder.Services.AddCurrentUserInfo<ApplicationUser, ApplicationUserClaimsFactory>();
 
 builder.Services.AddAuthentication(options =>
     {
@@ -31,6 +31,7 @@ builder.Services.AddCoreNotify<ApplicationUser>(builder.Configuration);
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddClaimsPrincipalFactory<ApplicationUserClaimsFactory>() // transforms ApplicationUser properties into Claims	
     .AddSignInManager()
     .AddDefaultTokenProviders();
 

@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject CurrentUserAccessor<ApplicationUser> CurrentUser
 
 <RadzenComponents @rendermode="InteractiveServer" />
 
@@ -8,8 +9,10 @@
         <hr />
     </nav>
 
-    <main class="content px-4">        
-        @Body        
+    <main class="content px-4">
+        <CascadingValue Value="user">
+            @Body
+        </CascadingValue>
     </main>
 </div>
 
@@ -18,3 +21,12 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+    ApplicationUser? user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await CurrentUser.GetAsync();
+    }
+}
