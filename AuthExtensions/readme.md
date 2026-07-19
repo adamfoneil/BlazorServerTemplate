@@ -8,50 +8,17 @@ Custom user properties are baked into the user's `ClaimsPrincipal` at login time
 
 ### 1. Implement `IClaimData` on your `IdentityUser` type
 
-[`IClaimData`](./IClaimData.cs) requires a single method that maps claims back to your custom properties:
+[`IClaimData`](./IClaimData.cs) requires a single method that maps claims back to your custom properties.
 
-```csharp
-public class ApplicationUser : IdentityUser, IClaimData
-{
-	public int UserId { get; set; }
-	public string? TimeZoneId { get; set; }
-	public int? CurrentTeamId { get; set; }
-
-	public void SetUserProperties(IEnumerable<Claim> claims)
-	{
-		UserId = claims.GetClaimValue(nameof(UserId)) is string s && int.TryParse(s, out var id) ? id : 0;
-		CurrentTeamId = claims.GetClaimValue(nameof(CurrentTeamId)) is string t && int.TryParse(t, out var tid) ? tid : null;
-		TimeZoneId = claims.GetClaimValue(nameof(TimeZoneId));
-	}
-}
-```
+See example [ApplicationUser](../Database/ApplicationUser.cs)
 
 `GetClaimValue(string claimType)` is an extension method on `IEnumerable<Claim>` provided by [`Extensions`](./Extensions.cs).
 
 ### 2. Create a claims factory
 
-Create a class that extends `UserClaimsPrincipalFactory<TUser>` and overrides `GenerateClaimsAsync` to add your custom claims at login time. These are the same claim names that `SetUserProperties` reads back:
+Create a class that extends `UserClaimsPrincipalFactory<TUser>` and overrides `GenerateClaimsAsync` to add your custom claims at login time. These are the same claim names that `SetUserProperties` reads back.
 
-```csharp
-public class ApplicationUserClaimsFactory(
-	UserManager<ApplicationUser> userManager,
-	IOptions<IdentityOptions> optionsAccessor)
-	: UserClaimsPrincipalFactory<ApplicationUser>(userManager, optionsAccessor)
-{
-	protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
-	{
-		var identity = await base.GenerateClaimsAsync(user);
-
-		identity.AddClaims([
-			new(nameof(ApplicationUser.UserId), user.UserId.ToString()),
-			new(nameof(ApplicationUser.TimeZoneId), user.TimeZoneId ?? string.Empty),
-			new(nameof(ApplicationUser.CurrentTeamId), (user.CurrentTeamId ?? 0).ToString()),
-		]);
-
-		return identity;
-	}
-}
-```
+See example [ApplicationUserClaimsFactory](../Database/ApplicationUserClaimsFactory.cs)
 
 ### 3. Register services at startup
 
@@ -64,6 +31,17 @@ builder.Services.AddCurrentUserInfo<ApplicationUser, ApplicationUserClaimsFactor
 This registers:
 - `IUserClaimsPrincipalFactory<TUser>` → your `TClaimsFactory`, so custom claims are added at login
 - `CurrentUserAccessor<TUser>` as a scoped service
+
+In your EF Core setup, add your new custom claims factory:
+
+```csharp
+builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddClaimsPrincipalFactory<ApplicationUserClaimsFactory>() // custom claims factory here
+    .AddSignInManager()
+    .AddDefaultTokenProviders();
+```
+
 
 ### 4. Resolve the user once in your layout and cascade it
 
@@ -85,6 +63,8 @@ Inject `CurrentUserAccessor` into your layout (e.g. `MainLayout.razor`), call `G
 	}
 }
 ```
+
+See example [MainLayout.razor](../BlazorApp/Components/Layout/MainLayout.razor)
 
 `GetAsync()` returns `TUser?` — `null` when the user is not authenticated.
 
