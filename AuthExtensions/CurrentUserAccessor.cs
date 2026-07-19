@@ -5,10 +5,10 @@ using System.Security.Claims;
 namespace AuthExtensions;
 
 public class CurrentUserAccessor<TUser>(
-	AuthenticationStateProvider authStateProvider)	
+	AuthenticationStateProvider authStateProvider)
 	where TUser : IdentityUser, IClaimData, new()
 {
-	private readonly AuthenticationStateProvider _authState = authStateProvider;	
+	private readonly AuthenticationStateProvider _authState = authStateProvider;
 
 	private TUser? _currentUser;
 
@@ -32,7 +32,7 @@ public class CurrentUserAccessor<TUser>(
 				NormalizedUserName = user.Identity.Name
 			};
 
-			_currentUser.FromClaims(user.Claims);
+			_currentUser.SetUserProperties(user.Claims);
 		}
 
 		return _currentUser;

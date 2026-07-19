@@ -9,11 +9,12 @@ public static class Extensions
 	/// <summary>
 	/// use this in your main app startup to include necessary services to get strong-typed user info in your pages/components
 	/// </summary>
-	public static void AddCurrentUserInfo<TUser>(this IServiceCollection services)
+	public static void AddCurrentUserInfo<TUser, TClaimsFactory>(this IServiceCollection services)
 		where TUser : IdentityUser, IClaimData, new()
+		where TClaimsFactory : class, IUserClaimsPrincipalFactory<TUser>
 	{
 		// causes your custom claims to be added to the ClaimsPrincipal when users login
-		services.AddScoped<IUserClaimsPrincipalFactory<TUser>, CustomClaimsPrincipalFactory<TUser>>();
+		services.AddScoped<IUserClaimsPrincipalFactory<TUser>, TClaimsFactory>();
 
 		// provides strongly-typed access to the current user info in your pages/components
 		services.AddScoped<CurrentUserAccessor<TUser>>();
