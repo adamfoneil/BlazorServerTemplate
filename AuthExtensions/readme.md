@@ -80,6 +80,10 @@ Any page or component nested under the layout can receive the user without injec
 
 This avoids calling `GetAsync()` repeatedly on every component and keeps user access uniform across the app.
 
+See example [UserInfo.razor](../BlazorApp/Components/Pages/UserInfo.razor), [Items page](../BlazorApp/Components/Items/Page.razor)
+
+**Important** Changes to user's profile don't propagate until the user logs in again after making profile changes.
+
 ## `GetClaimValue` extension
 
 `Extensions.GetClaimValue(this IEnumerable<Claim> claims, string claimType)` is a convenience helper used both in the claims factory and in `SetUserProperties`:

@@ -60,11 +60,11 @@
 @code {
     private RadzenDataGrid<Item>? grid;
     private Item[] data = [];
-    private ApplicationUser? user;
+
+    [CascadingParameter] public ApplicationUser? User { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        user = await CurrentUser.GetAsync();
         await Refresh();
     }
 
@@ -78,7 +78,7 @@
     {
         using var db = DbFactory.CreateDbContext();
         db.Items.Update(row);
-        await db.SaveChangesAsync(user);
+        await db.SaveChangesAsync(User);
     }
 
     private async Task Delete(Item row)
