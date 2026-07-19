@@ -1,0 +1,11 @@
+﻿<dl>
+    <dt>User Name:</dt>
+    <dd>@User?.UserName</dd>
+
+    <dt>Time Zone:</dt>
+    <dd>@User?.TimeZoneId</dd>
+</dl>
+
+@code {
+    [CascadingParameter] public ApplicationUser? User { get; set; }
+}
